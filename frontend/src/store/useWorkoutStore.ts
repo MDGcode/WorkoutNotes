@@ -7,6 +7,7 @@ interface Workout {
   title: string;
   load: number;
   reps: number;
+  createdAt: string;
 }
 
 interface WorkoutStore {
