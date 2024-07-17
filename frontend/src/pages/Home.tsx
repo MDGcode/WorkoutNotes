@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import WorkoutDetails from "../components/WorkoutDetails";
 import useWorkoutStore from "../store/useWorkoutStore";
 import WorkoutForm from "../components/WorkoutForm";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const Home: React.FC = () => {
   const { workouts, fetchWorkouts } = useWorkoutStore();
@@ -20,7 +21,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <>
+    <ProtectedRoute>
       <div className="grid place-items-center gap-2 mt-16">
         {workouts &&
           workouts.map((workout) => (
@@ -52,7 +53,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       )}
-    </>
+    </ProtectedRoute>
   );
 };
 
