@@ -4,6 +4,7 @@ import axios from "axios";
 
 interface AuthStore {
   token: string | null;
+  email: string | null;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -11,14 +12,17 @@ interface AuthStore {
 
 const useAuthStore = create<AuthStore>((set) => ({
   token: localStorage.getItem("token"),
+  email: localStorage.getItem("email"),
   login: async (email: string, password: string) => {
     const response = await axios.post(
       import.meta.env.VITE_API_URL + "/api/user/login",
       { email, password }
     );
     const token = response.data.token;
+    const storedEmail = response.data.email;
     localStorage.setItem("token", token);
-    set({ token });
+    localStorage.setItem("email", storedEmail);
+    set({ token, email: storedEmail });
   },
   signup: async (email: string, password: string) => {
     const response = await axios.post(
@@ -26,12 +30,15 @@ const useAuthStore = create<AuthStore>((set) => ({
       { email, password }
     );
     const token = response.data.token;
+    const storedEmail = response.data.email;
     localStorage.setItem("token", token);
-    set({ token });
+    localStorage.setItem("email", storedEmail);
+    set({ token, email: storedEmail });
   },
   logout: () => {
     localStorage.removeItem("token");
-    set({ token: null });
+    localStorage.removeItem("email");
+    set({ token: null, email: null });
   },
 }));
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import useWorkoutStore from "../store/useWorkoutStore";
-
+import useAuthStore from "../store/useAuthStore";
 interface WorkoutFormProps {
   onClose: () => void;
 }
@@ -11,10 +11,11 @@ export default function WorkoutForm({ onClose }: WorkoutFormProps) {
   const [reps, setReps] = useState("");
   const [error, setError] = useState<string | null>(null);
   const addWorkout = useWorkoutStore((state) => state.addWorkout);
+  const email = useAuthStore((state) => state.email);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const workout = { title, load, reps };
+    const workout = { title, load, reps, email };
 
     try {
       const response = await axios.post(
